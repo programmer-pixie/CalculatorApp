@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Calculator</string>
+    <string name="one" id="value">1</string>
+    <string name="two" id="value">2</string>
+    <string name="three" id="value">3</string>
+    <string name="four" id="value">4</string>
+    <string name="five" id="value">5</string>
+    <string name="six" id="value">6</string>
+    <string name="seven" id="value">7</string>
+    <string name="eight" id="value">8</string>
+    <string name="nine" id="value">9</string>
+    <string name="oParen" id="operator">(</string>
+    <string name="zero" id="value">0</string>
+    <string name="cParen" id="operator">)</string>
+    <string name="plus" id="operator">+</string>
+    <string name="minus" id="operator">-</string>
+    <string name="mult" id="operator">*</string>
+    <string name="div" id="operator">/</string>
+    <string name="equal" id="operator">=</string>
+    <string name="outputMsg" />
+    <string name="clear">CLR</string>
+</resources>
