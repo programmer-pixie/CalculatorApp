@@ -117,7 +117,7 @@ public class Calculator extends AppCompatActivity {
             }
         });
 
-        //CLOSED PAREN BUTTON HANDLER
+        //LEFT (OPEN) PAREN BUTTON HANDLER
         findViewById(R.id.oParenBtn).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //first checks if a number is ready to be added to postfix
@@ -140,7 +140,7 @@ public class Calculator extends AppCompatActivity {
             }
         });
 
-        //OPEN PAREN BUTTON HANDLER
+        //RIGHT (CLOSED) PAREN BUTTON HANDLER
         findViewById(R.id.cParenBtn).setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //check if value is ready to be added to postfix
@@ -152,7 +152,7 @@ public class Calculator extends AppCompatActivity {
                 //if there is a matching open parenthesis
                 if (openParen > 0) {
                     while (!operatorStack.isEmpty()) {
-                        if (operatorStack.peek() != "(") {
+                        if (!operatorStack.peek().equals("(")) {
                             postfix = postfix.concat(operatorStack.pop() + " ");
                         } else {
                             operatorStack.pop();
@@ -161,8 +161,12 @@ public class Calculator extends AppCompatActivity {
                     }
                     openParen--;
                     expression = expression.concat(" ) ");
-                    outputMessage.setText(expression);
+
                 }
+                else{
+                    expression = NO_OPAREN;
+                }
+                outputMessage.setText(expression);
             }
         });
 
@@ -215,11 +219,13 @@ public class Calculator extends AppCompatActivity {
             prevIsNumber = true;
             expression = expression.concat(token);
             outputMessage.setText(expression);
-        } else if (!isNumber && prevIsNumber) {
+        }
+        else if (prevIsNumber) {
             postfix = postfix.concat(value + " ");
             value = "";
             process(token);
-        } else {
+        }
+        else {
             process(token);
         }
 
@@ -231,11 +237,13 @@ public class Calculator extends AppCompatActivity {
     //determines due to the operator's preference whether it is pushed to the hold stack or directly added to the postfix expression
     private void process(String token) {
         String temp = "";
-        if (operatorStack.isEmpty() || getOrder(token) > getOrder(operatorStack.peek())) {
-            operatorStack.push(token);
-        } else {
-            postfix = postfix.concat(operatorStack.pop() + " ");
-            operatorStack.push(token);
+        while(true){
+            if (operatorStack.isEmpty() || getOrder(token) > getOrder(operatorStack.peek())) {
+                operatorStack.push(token);
+                break;
+            } else {
+                postfix = postfix.concat(operatorStack.pop() + " ");
+            }
         }
         prevIsNumber = false;
         expression = expression.concat(" " + token + " ");
@@ -246,10 +254,11 @@ public class Calculator extends AppCompatActivity {
     private int getOrder(String token) {
         if (token.contentEquals("+") || token.contentEquals("-")) {
             return 1;
-        } else if (token.contentEquals("(")) {
-            return 0;
-        } else {
+        }
+        else if(token.contentEquals("*") || token.contentEquals("/")) {
             return 2;
         }
+        else
+            return 0;
     }
 }
